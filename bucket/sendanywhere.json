@@ -1,0 +1,55 @@
+{
+    "version": "0",
+    "description": "Send Anywhere is a file sharing application that takes an easy, quick, and unlimited approach to file sharing.",
+    "homepage": "https://send-anywhere.com",
+    "license": {
+        "identifier": "Proprietary",
+        "url": "https://send-anywhere.com/terms"
+    },
+    "architecture": {
+        "64bit": {
+            "url": "https://update.send-anywhere.com/downloads/x64/SendAnywhereSetup_1709861048.exe#dl.zip",
+            "checkver": {
+                "url": "https://update.send-anywhere.com/downloads/x64/latest.yml",
+                "regex": "version:\\s(?<version>[\\d.]+)(.|\n)+SendAnywhereSetup_(?<timestamp>\\d+).exe"
+            },
+            "pre_install": [
+                "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-64.7z\" \"$dir\"",
+                "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\Uninstall*\", \"$dir\\vc_redist*\" -Force -Recurse"
+            ]
+        },
+        "32bit": {
+            "url": "https://update.send-anywhere.com/downloads/SendAnywhereSetup_1709861048.exe#dl.zip",
+            "checkver": {
+                "url": "https://update.send-anywhere.com/downloads/latest.yml",
+                "regex": "version:\\s(?<version>[\\d.]+)(.|\n)+SendAnywhereSetup_(?<timestamp>\\d+).exe"
+            },
+            "pre_install": [
+                "Expand-7zipArchive \"$dir\\`$PLUGINSDIR\\app-32.7z\" \"$dir\"",
+                "Remove-Item \"$dir\\`$PLUGINSDIR\", \"$dir\\Uninstall*\", \"$dir\\vc_redist*\" -Force -Recurse"
+            ]
+        }
+    },
+    "suggest": {
+        "vcredist": "extras/vcredist2022"
+    },
+    "shortcuts": [["Send Anywhere.exe", "Send Anywhere"]],
+    "autoupdate": {
+        "architecture": {
+            "64bit": {
+                "url": "https://update.send-anywhere.com/downloads/SendAnywhereSetup_$timestamp.exe#dl.zip",
+                "hash": {
+                    "url": "https://update.send-anywhere.com/downloads/x64/latest.yml",
+                    "regex": "sha512:\\s+$base64"
+                }
+            },
+            "32bit": {
+                "url": "https://update.send-anywhere.com/downloads/SendAnywhereSetup_$timestamp.exe#dl.zip",
+                "hash": {
+                    "url": "https://update.send-anywhere.com/downloads/latest.yml",
+                    "regex": "sha512:\\s+$base64"
+                }
+            }
+        }
+    }
+}
